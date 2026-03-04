@@ -227,7 +227,7 @@ docker-compose exec mysql mysql -u root -proot_password -e "SELECT * FROM user_a
 ## Testing
 
 Tests are executed **inside** the running service containers and use the mounted `/tests` directory. 
-### Start services (if not already running)
+### Start services 
 
 ```bash
 docker-compose up --build -d
@@ -245,7 +245,6 @@ docker-compose exec producer-service sh -c "pytest -q /tests/producer"
 docker-compose exec consumer-service sh -c "pytest -q /tests/consumer"
 ```
 
-All tests should pass before submission.
 
 ***
 
