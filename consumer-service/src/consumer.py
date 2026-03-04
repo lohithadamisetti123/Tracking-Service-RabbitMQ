@@ -183,15 +183,29 @@ app = FastAPI(title="User Activity Consumer Service", lifespan=lifespan)
 @app.get("/health")
 async def health():
     status = {}
+
+    # MySQL check
     try:
         conn = get_db_connection()
         status["mysql"] = "connected" if conn.is_connected() else "disconnected"
     except Exception as e:
         status["mysql"] = f"error: {e}"
 
+    # RabbitMQ check: use a dedicated short-lived connection
     try:
-        _, ch = get_rabbitmq_connection()
-        ch.queue_declare(queue=RABBITMQ_QUEUE, durable=True)
+        credentials = pika.PlainCredentials(RABBITMQ_USER, RABBITMQ_PASSWORD)
+        params = pika.ConnectionParameters(
+            host=RABBITMQ_HOST,
+            port=RABBITMQ_PORT,
+            credentials=credentials,
+            heartbeat=10,
+            blocked_connection_timeout=10,
+        )
+        tmp_conn = pika.BlockingConnection(params)
+        tmp_ch = tmp_conn.channel()
+        tmp_ch.queue_declare(queue=RABBITMQ_QUEUE, durable=True)
+        tmp_ch.close()
+        tmp_conn.close()
         status["rabbitmq"] = "connected"
     except Exception as e:
         status["rabbitmq"] = f"error: {e}"
@@ -200,6 +214,7 @@ async def health():
         return {"status": "ok", **status}
     else:
         raise HTTPException(status_code=503, detail=status)
+
 
 
 def handle_sigterm(*_args):

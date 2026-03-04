@@ -35,44 +35,44 @@ services:
   producer-service:
     build: ./producer-service
     ports:
-      - '${PRODUCER_PORT:-8000}:8000'
-    env_file:
-      - .env
+      - "8000:8000"
     environment:
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: 5672
-    volumes:
-      - ./tests:/tests
+      PRODUCER_PORT: 8000
     depends_on:
       rabbitmq:
         condition: service_healthy
+    volumes:
+      - ./tests:/tests
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 10s
       timeout: 5s
       retries: 3
 
-
   consumer-service:
     build: ./consumer-service
-    env_file:
-      - .env
     environment:
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: 5672
       MYSQL_HOST: mysql
       MYSQL_PORT: 3306
-    volumes:
-      - ./tests:/tests
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root_password
+      MYSQL_DB: user_activity_db
+      CONSUMER_PORT: 8001
     depends_on:
       rabbitmq:
         condition: service_healthy
       mysql:
         condition: service_healthy
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./tests:/tests
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
       interval: 10s
       timeout: 5s
-      retries: 5
-
-
+      retries: 3
