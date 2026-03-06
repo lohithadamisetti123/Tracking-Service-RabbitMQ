@@ -64,6 +64,13 @@ The `tests/` directory is mounted into containers via Docker Compose so tests ca
 
 ***
 
+## Demo Video🔴🔴
+
+[WATCH NOW HERE👉](https://youtu.be/9N5sCdm1TZY?si=snDM4EyVBNU7Z1gA)
+
+
+***
+
 ## Environment Variables
 
 All sensitive or environment-specific configuration is driven via environment variables and documented in `.env.example`. 
@@ -288,12 +295,7 @@ Both services handle graceful shutdown (e.g., SIGTERM) to close connections and 
 
 ***
 
-## Demo Video
 
-[WATCH NOW👉](https://youtu.be/9N5sCdm1TZY?si=snDM4EyVBNU7Z1gA)
-
-
-***
 
 ## Challenges and Learnings
 
