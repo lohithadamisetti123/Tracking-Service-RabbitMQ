@@ -290,21 +290,8 @@ Both services handle graceful shutdown (e.g., SIGTERM) to close connections and 
 
 ## Demo Video
 
-Record a short demo (2–5 minutes) walking through:
+[WATCH NOW👉](https://youtu.be/9N5sCdm1TZY?si=snDM4EyVBNU7Z1gA)
 
-1. Running `docker-compose up --build`.
-2. Hitting `GET /health` for both services.
-3. Sending a `POST /api/v1/events/track` request.
-4. Showing the event in RabbitMQ.
-5. Showing the persisted record in MySQL. [app.partnr](https://app.partnr.network/global-placement-program/tasks/3410709d18e5429fa230)
-
-Upload the video (e.g., YouTube unlisted, Google Drive) and link it here:
-
-```markdown
-### Demo Video
-
-Watch the demo video here: https://your-demo-video-link
-```
 
 ***
 
